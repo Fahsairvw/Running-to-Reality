@@ -2,9 +2,8 @@ import time
 import pygame as pg
 import numpy as np
 from data import SaveFile
-from game_component import Runner, Obstacle, Drawer
 from config import Config
-
+from game_component import Runner, Obstacle, Drawer, Menu
 
 
 class SoundEffects:
@@ -47,32 +46,50 @@ class SoundEffects:
 
 class Game:
     def __init__(self):
-        self.__runner = Runner(20, 220)
-        self.__obstacle = Obstacle(700, 260)
+        self.__runner = None
+        self.__obstacle = None
         self.__score = 0
         self.__jump = 0
         self.__level = 1
         self.__speed = 5
-        self.__state = "starting"
+        self.__state = "selecting"
         self.__has_passed_obstacle = False
         self.__drawer = Drawer()
         self.__start_time = None
         self.__save_file = SaveFile()
         self.__data = []
+        self.__theme = None
+        self.__menu = Menu()
+        self.__gravity = 0.4
 
     def reset_game(self):
         """Reset the game."""
         print("Restarting Game...")
-        self.__runner = Runner(20, 220)
-        self.__obstacle = Obstacle(740, 260)
+        self.__runner = Runner(Config.POSITION_RUNNER[self.__theme][0], Config.POSITION_RUNNER[self.__theme][1])
+        self.__obstacle = Obstacle(Config.POSITION_OBSTACLE[self.__theme][0], Config.POSITION_OBSTACLE[self.__theme][1])
         self.__score = 0
         self.__level = 1
         self.__speed = 5
         self.__jump = 0
         self.__state = "starting"
+        self.__gravity = 0.4
         self.__has_passed_obstacle = False
         self.__start_time = None
         self.__data = []
+        if self.__theme == "Escaping F":
+            self.__drawer.set_theme(1)
+            self.__obstacle.set_theme(1)
+            self.__runner.set_theme(1)
+
+        elif self.__theme == "Rescuing G":
+            self.__drawer.set_theme(3)
+            self.__obstacle.set_theme(3)
+            self.__runner.set_theme(3)
+
+        else:
+            self.__drawer.set_theme(2)
+            self.__obstacle.set_theme(2)
+            self.__runner.set_theme(2)
 
     def find_dis(self):
         """Check if the runner collides with the obstacle."""
@@ -95,6 +112,30 @@ class Game:
             for ev in pg.event.get():
                 if ev.type == pg.QUIT:
                     running = False
+                if self.__state == "selecting":
+                    self.__menu.handle_events(ev)
+
+                    if self.__menu.selected_theme is not None:
+                        self.__theme = self.__menu.selected_theme
+                        self.__state = "starting"
+                        self.__drawer.updating()
+                        self.__runner = Runner(Config.POSITION_RUNNER[self.__theme][0],
+                                               Config.POSITION_RUNNER[self.__theme][1])
+                        self.__obstacle = Obstacle(Config.POSITION_OBSTACLE[self.__theme][0],
+                                                   Config.POSITION_OBSTACLE[self.__theme][1])
+                        if self.__theme == "Escaping F":
+                            self.__drawer.set_theme(1)
+                            self.__obstacle.set_theme(1)
+                            self.__runner.set_theme(1)
+                        elif self.__theme == "Rescuing G":
+                            self.__drawer.set_theme(3)
+                            self.__obstacle.set_theme(3)
+                            self.__runner.set_theme(3)
+                        else:
+                            self.__drawer.set_theme(2)
+                            self.__obstacle.set_theme(2)
+                            self.__runner.set_theme(2)
+
                 elif ev.type == pg.KEYDOWN:
                     if ev.key == pg.K_SPACE:
                         if self.__state == "starting":
@@ -108,11 +149,13 @@ class Game:
                             self.__runner.jump()
                         elif self.__state == "game over":
                             self.reset_game()
-
-            if self.__state == "starting":
+            if self.__state == "selecting":
+                self.__menu.draw_menu()
+            elif self.__state == "starting":
                 self.__drawer.drawing_start()
+                self.__drawer.update()
             elif self.__state == "playing":
-                self.__runner.update()
+                self.__runner.update(self.__gravity)
                 self.__obstacle.update(self.__level, self.__speed)
 
                 if self.find_dis():
@@ -121,12 +164,13 @@ class Game:
                     self.__state = "game over"
                     print("Collision detected! Game Over.")
                     SoundEffects.get_instance().play('over')
-                    # self.__data.append(self.__jump)
-                    # self.__data.append(self.__score)
-                    # self.__data.append(self.__level)
-                    # self.__data.append(round(elapsed_time, 2))
-                    # self.__data.append(self.__speed)
-                    # self.__save_file.add_data(self.__data)
+                    self.__data.append(self.__jump)
+                    self.__data.append(self.__score)
+                    self.__data.append(self.__level)
+                    self.__data.append(round(elapsed_time, 2))
+                    self.__data.append(self.__speed)
+                    self.__data.append(self.__theme)
+                    self.__save_file.add_data(self.__data)
 
                 elif (self.check_is_on_top()
                         or self.__obstacle.get_rect().right < self.__runner.get_rect().left):
@@ -136,6 +180,7 @@ class Game:
                         if self.__score % 10 == 1 and self.__score != 1:
                             self.__level += 1
                             self.__speed += 1
+                            self.__gravity += 0.1
                             self.__has_passed_obstacle = True
                         self.__has_passed_obstacle = True
                 else:
