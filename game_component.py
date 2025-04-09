@@ -171,9 +171,9 @@ class Menu:
         self.__screen = pg.display.set_mode((Config.MENU_WIDTH, Config.MENU_HEIGHT))
         self.__menu = Config.MENU_BG
         self.__buttons = {
-            "Escaping F": pg.Rect(200, 340, Config.BUTTON_WIDTH, Config.BUTTON_HEIGHT),
-            "Escaping T": pg.Rect(200, 410, Config.BUTTON_WIDTH, Config.BUTTON_HEIGHT),
-            "Rescuing G": pg.Rect(200, 480, Config.BUTTON_WIDTH, Config.BUTTON_HEIGHT),
+            "Escaping F": pg.Rect(140, 320, Config.BUTTON_WIDTH, Config.BUTTON_HEIGHT),
+            "Escaping T": pg.Rect(140, 427, Config.BUTTON_WIDTH, Config.BUTTON_HEIGHT),
+            "Rescuing G": pg.Rect(140, 528, Config.BUTTON_WIDTH, Config.BUTTON_HEIGHT),
         }
 
         self.selected_theme = None
@@ -189,18 +189,17 @@ class Menu:
 
     def draw_menu(self):
         self.__screen.blit(self.__menu, (0, 0))
-
         font = pg.font.Font(None, 46)
-        text = font.render(f"Select Your journey", True, Config.BLACK)
-        text2 = font.render(f"by clicking", True, Config.BLACK)
-        text3 = font.render(f"the button below", True, Config.BLACK)
-
-        self.__screen.blit(text, (150, 100))
-        self.__screen.blit(text2, (210, 150))
-        self.__screen.blit(text3, (180, 200))
+        # text = font.render(f"Select Your journey", True, Config.BLACK)
+        # text2 = font.render(f"by clicking", True, Config.BLACK)
+        # text3 = font.render(f"the button below", True, Config.BLACK)
+        #
+        # self.__screen.blit(text, (150, 100))
+        # self.__screen.blit(text2, (210, 150))
+        # self.__screen.blit(text3, (180, 200))
 
         for theme, rect in self.__buttons.items():
-            pg.draw.rect(self.__screen, (200, 200, 200), rect)
+            pg.draw.rect(self.__screen, Config.WHITE, rect)
             text = font.render(theme, True, Config.BLACK)
             text_rect = text.get_rect(center=rect.center)
             self.__screen.blit(text, text_rect)
