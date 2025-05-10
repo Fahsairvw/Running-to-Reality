@@ -3,7 +3,7 @@ import pygame as pg
 import numpy as np
 from data import SaveFile
 from config import Config
-from game_component import Runner, Obstacle, Drawer, Menu
+from game_component import Runner, Obstacle, Drawer, SelectedMenu
 
 
 class SoundEffects:
@@ -58,17 +58,12 @@ class Game:
         self.__save_file = SaveFile()
         self.__data = []
         self.__theme = "Escaping F"
-        self.__menu = Menu()
+        self.__menu = SelectedMenu()
         self.__gravity = 0.4
 
     def set_theme(self, theme):
         """Set the game theme from the Tkinter menu"""
         self.__theme = theme
-
-    def set_difficulty(self, speed, gravity):
-        """Set the game difficulty from the Tkinter menu"""
-        self.__speed = speed
-        self.__gravity = gravity
 
     def find_dis(self):
         """Check if the runner collides with the obstacle."""

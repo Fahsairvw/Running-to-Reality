@@ -28,3 +28,5 @@ class Config:
 
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
+    PALETTE = ['#A2CFF0', '#FEC3E1', '#D7BDE2']
+

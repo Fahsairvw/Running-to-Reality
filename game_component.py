@@ -170,7 +170,7 @@ class Drawer:
         self.__clock.tick(fps)
 
 
-class Menu:
+class SelectedMenu:
     def __init__(self):
         self.__screen = pg.display.set_mode((Config.MENU_WIDTH, Config.MENU_HEIGHT))
         self.__menu = Config.MENU_BG
