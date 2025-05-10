@@ -38,7 +38,7 @@ The game consists of five main classes:
 10. **GameMenu** – Handle the home page
 11. **HomePage** – Handle the initial of the window
 
-![Logo](/screenshot/uml.png)
+![Logo](/screenshots/uml.png)
 
 ### 3.3 Algorithms Involved
 - **Collision Detection** – Uses bounding box collision detection to check if the player collides with obstacles.

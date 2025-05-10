@@ -38,3 +38,18 @@ Go to Directory
 4. Run program
    
    ```python main.py```
+
+### Example UI
+Story telling page
+
+![Logo](/screenshots/visualization/piechart.png)
+
+Selecting Theme Menu
+
+![Logo](/screenshots/gameplay/ThemeMenu.png)
+
+Game Example
+
+![Logo](/screenshots/gameplay/EscapingF.png)
+
+
