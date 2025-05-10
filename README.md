@@ -8,6 +8,10 @@ How long can you keep running before reality catches up?
 ### Software Requirement:
 * Python version = 3.11
 
+### Project Document:
+[DESCRIPTION](https://github.com/Fahsairvw/Running-to-Reality/blob/main/DESCRIPTION.md)
+
+
 ### Installation
 Clone the repository
 
