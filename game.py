@@ -178,13 +178,16 @@ class Game:
                       or self.__obstacle.get_rect().right < self.__runner.get_rect().left):
                     if not self.__has_passed_obstacle:
                         self.__score += 1
-                        if self.__level >= 8:
-                            return
-                        elif self.__score % 10 == 0 and self.__score != 0:
-                            self.__level += 1
-                            self.__speed += 0.5
-                            self.__gravity += 0.04
-                            self.__has_passed_obstacle = True
+                        if self.__score % 10 == 0 and self.__score != 0:
+                            if self.__level >= 7:
+                                self.__level += 1
+                                self.__has_passed_obstacle = True
+
+                            else:
+                                self.__level += 1
+                                self.__speed += 0.5
+                                self.__gravity += 0.04
+                                self.__has_passed_obstacle = True
                         self.__has_passed_obstacle = True
                 else:
                     self.__has_passed_obstacle = False
