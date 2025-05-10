@@ -12,7 +12,9 @@ class Config:
     BUTTON_HEIGHT = 40
 
     BG = {1: pg.image.load("photo/bg.png"), 2: pg.image.load("photo/bg3.png"),  3: pg.image.load("photo/bg2.png")}
-    RUN = {1: [pg.image.load("photo/run.png"), pg.image.load("photo/run2.png")], 2: [pg.image.load("photo/run.png"), pg.image.load("photo/run2.png")], 3: pg.image.load("photo/ghost.png")}
+    RUN = {1: [pg.image.load("photo/run.png"), pg.image.load("photo/run2.png")],
+           2: [pg.image.load("photo/run.png"), pg.image.load("photo/run2.png")],
+           3: pg.image.load("photo/ghost.png")}
     OBSTACLE = {1: pg.image.load("photo/obstacle.png"), 2: pg.image.load("photo/obstacle3.png"),
                 3: pg.image.load("photo/obstacle2.png")}
     JUMP = {1: pg.image.load("photo/jump.png"), 2: pg.image.load("photo/jump.png"), 3: pg.image.load("photo/ghost.png")}

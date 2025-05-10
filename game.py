@@ -13,7 +13,6 @@ class SoundEffects:
         if SoundEffects.__instance is None:
             pg.mixer.init(frequency=44100, channels=2)
             self.__instance = self
-            print("Sound Effects Initialized")
             self.__effects = {"jump": self.__gen_sound(0.15, 500),
                               "start": self.__gen_sound(0.15, 1200),
                               "over": self.__gen_sound(1.0, 200),
@@ -52,44 +51,24 @@ class Game:
         self.__jump = 0
         self.__level = 1
         self.__speed = 5
-        self.__state = "selecting"
+        self.__state = "starting"
         self.__has_passed_obstacle = False
         self.__drawer = Drawer()
         self.__start_time = None
         self.__save_file = SaveFile()
         self.__data = []
-        self.__theme = None
+        self.__theme = "Escaping F"
         self.__menu = Menu()
         self.__gravity = 0.4
 
-    def reset_game(self):
-        """Reset the game."""
-        print("Restarting Game...")
-        self.__runner = Runner(Config.POSITION_RUNNER[self.__theme][0], Config.POSITION_RUNNER[self.__theme][1])
-        self.__obstacle = Obstacle(Config.POSITION_OBSTACLE[self.__theme][0], Config.POSITION_OBSTACLE[self.__theme][1])
-        self.__score = 0
-        self.__level = 1
-        self.__speed = 5
-        self.__jump = 0
-        self.__state = "starting"
-        self.__gravity = 0.4
-        self.__has_passed_obstacle = False
-        self.__start_time = None
-        self.__data = []
-        if self.__theme == "Escaping F":
-            self.__drawer.set_theme(1)
-            self.__obstacle.set_theme(1)
-            self.__runner.set_theme(1)
+    def set_theme(self, theme):
+        """Set the game theme from the Tkinter menu"""
+        self.__theme = theme
 
-        elif self.__theme == "Rescuing G":
-            self.__drawer.set_theme(3)
-            self.__obstacle.set_theme(3)
-            self.__runner.set_theme(3)
-
-        else:
-            self.__drawer.set_theme(2)
-            self.__obstacle.set_theme(2)
-            self.__runner.set_theme(2)
+    def set_difficulty(self, speed, gravity):
+        """Set the game difficulty from the Tkinter menu"""
+        self.__speed = speed
+        self.__gravity = gravity
 
     def find_dis(self):
         """Check if the runner collides with the obstacle."""
@@ -105,37 +84,60 @@ class Game:
 
         return is_above and is_within_x_range
 
+    def reset_game(self):
+        """Reset the game."""
+        print("Restarting Game...")
+        self.__runner = Runner(Config.POSITION_RUNNER[self.__theme][0], Config.POSITION_RUNNER[self.__theme][1])
+        self.__obstacle = Obstacle(Config.POSITION_OBSTACLE[self.__theme][0], Config.POSITION_OBSTACLE[self.__theme][1])
+        self.__score = 0
+        self.__level = 1
+        self.__jump = 0
+        self.__speed = 5
+        self.__gravity = 0.4
+        self.__state = "starting"
+        self.__has_passed_obstacle = False
+        self.__start_time = None
+        self.__data = []
+
+        if self.__theme == "Escaping F":
+            self.__drawer.set_theme(1)
+            self.__obstacle.set_theme(1)
+            self.__runner.set_theme(1)
+        elif self.__theme == "Rescuing G":
+            self.__drawer.set_theme(3)
+            self.__obstacle.set_theme(3)
+            self.__runner.set_theme(3)
+        else:  # "Escaping T"
+            self.__drawer.set_theme(2)
+            self.__obstacle.set_theme(2)
+            self.__runner.set_theme(2)
+
     def run(self):
-        print("Game loop started")
+        """game logic"""
+        pg.init()
+        self.__drawer.updating()
+        self.__runner = Runner(Config.POSITION_RUNNER[self.__theme][0], Config.POSITION_RUNNER[self.__theme][1])
+        self.__obstacle = Obstacle(Config.POSITION_OBSTACLE[self.__theme][0], Config.POSITION_OBSTACLE[self.__theme][1])
+
+        # Apply theme
+        if self.__theme == "Escaping F":
+            self.__drawer.set_theme(1)
+            self.__obstacle.set_theme(1)
+            self.__runner.set_theme(1)
+        elif self.__theme == "Rescuing G":
+            self.__drawer.set_theme(3)
+            self.__obstacle.set_theme(3)
+            self.__runner.set_theme(3)
+        else:
+            self.__drawer.set_theme(2)
+            self.__obstacle.set_theme(2)
+            self.__runner.set_theme(2)
+
         running = True
         while running:
             for ev in pg.event.get():
                 if ev.type == pg.QUIT:
-                    running = False
-                if self.__state == "selecting":
-                    self.__menu.handle_events(ev)
-
-                    if self.__menu.selected_theme is not None:
-                        self.__theme = self.__menu.selected_theme
-                        self.__state = "starting"
-                        self.__drawer.updating()
-                        self.__runner = Runner(Config.POSITION_RUNNER[self.__theme][0],
-                                               Config.POSITION_RUNNER[self.__theme][1])
-                        self.__obstacle = Obstacle(Config.POSITION_OBSTACLE[self.__theme][0],
-                                                   Config.POSITION_OBSTACLE[self.__theme][1])
-                        if self.__theme == "Escaping F":
-                            self.__drawer.set_theme(1)
-                            self.__obstacle.set_theme(1)
-                            self.__runner.set_theme(1)
-                        elif self.__theme == "Rescuing G":
-                            self.__drawer.set_theme(3)
-                            self.__obstacle.set_theme(3)
-                            self.__runner.set_theme(3)
-                        else:
-                            self.__drawer.set_theme(2)
-                            self.__obstacle.set_theme(2)
-                            self.__runner.set_theme(2)
-
+                    return
                 elif ev.type == pg.KEYDOWN:
                     if ev.key == pg.K_SPACE:
                         if self.__state == "starting":
@@ -149,9 +151,10 @@ class Game:
                             self.__runner.jump()
                         elif self.__state == "game over":
                             self.reset_game()
-            if self.__state == "selecting":
-                self.__menu.draw_menu()
-            elif self.__state == "starting":
+                    elif ev.key == pg.K_ESCAPE:
+                        return
+
+            if self.__state == "starting":
                 self.__drawer.drawing_start()
                 self.__drawer.update()
             elif self.__state == "playing":
@@ -162,7 +165,6 @@ class Game:
                     elapsed_time = time.time() - self.__start_time
                     print(f"Game Over! You survived for {elapsed_time:.2f} seconds.")
                     self.__state = "game over"
-                    print("Collision detected! Game Over.")
                     SoundEffects.get_instance().play('over')
                     self.__data.append(self.__jump)
                     self.__data.append(self.__score)
@@ -173,14 +175,15 @@ class Game:
                     self.__save_file.add_data(self.__data)
 
                 elif (self.check_is_on_top()
-                        or self.__obstacle.get_rect().right < self.__runner.get_rect().left):
+                      or self.__obstacle.get_rect().right < self.__runner.get_rect().left):
                     if not self.__has_passed_obstacle:
-                        print("Score increased! Runner either landed or jumped over.")
                         self.__score += 1
-                        if self.__score % 10 == 1 and self.__score != 1:
+                        if self.__level >= 8:
+                            return
+                        elif self.__score % 10 == 0 and self.__score != 0:
                             self.__level += 1
-                            self.__speed += 1
-                            self.__gravity += 0.1
+                            self.__speed += 0.5
+                            self.__gravity += 0.04
                             self.__has_passed_obstacle = True
                         self.__has_passed_obstacle = True
                 else:
@@ -192,6 +195,8 @@ class Game:
 
             self.__drawer.update()
             self.__drawer.tick(60)
+
+        pg.quit()
 
 
 if __name__ == '__main__':

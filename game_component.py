@@ -16,6 +16,7 @@ class Runner:
         self.__theme = None
 
     def set_theme(self, theme):
+        """ set the selected theme"""
         self.__theme = theme
         self.__runner_images = Config.RUN[self.__theme]
         self.__jump_image = Config.JUMP[self.__theme]
@@ -72,6 +73,7 @@ class Obstacle:
         self.__theme = None
 
     def set_theme(self, theme):
+        """set the selected theme"""
         self.__theme = theme
         self.__obstacle = Config.OBSTACLE[self.__theme]
 
@@ -89,6 +91,7 @@ class Obstacle:
             self.__reset_flag = False
 
     def get_rect(self):
+        """Return the obstacle's position."""
         return pg.Rect(self.__x, self.__y, self.__obstacle.get_width(), self.__obstacle.get_height())
 
 
@@ -102,6 +105,7 @@ class Drawer:
         self.__theme = None
 
     def set_theme(self, theme):
+        """set the selected theme"""
         self.__theme = theme
         self.__bg = Config.BG[self.__theme]
 
@@ -184,19 +188,12 @@ class Menu:
             mouse_pos = pg.mouse.get_pos()
             for theme, rect in self.__buttons.items():
                 if rect.collidepoint(mouse_pos):
-                    print(f"{theme} selected!")
                     self.selected_theme = theme
 
     def draw_menu(self):
+        """draw the menu and button"""
         self.__screen.blit(self.__menu, (0, 0))
         font = pg.font.Font(None, 46)
-        # text = font.render(f"Select Your journey", True, Config.BLACK)
-        # text2 = font.render(f"by clicking", True, Config.BLACK)
-        # text3 = font.render(f"the button below", True, Config.BLACK)
-        #
-        # self.__screen.blit(text, (150, 100))
-        # self.__screen.blit(text2, (210, 150))
-        # self.__screen.blit(text3, (180, 200))
 
         for theme, rect in self.__buttons.items():
             pg.draw.rect(self.__screen, Config.WHITE, rect)
