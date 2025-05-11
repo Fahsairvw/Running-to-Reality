@@ -81,6 +81,17 @@ The game records data using a CSV file. This method is used to store gameplay st
 | graph3 | Score, Theme | Show the distribution of the score via each theme | Box plot | Score | Theme |
 | graph4 | Total jump, Time played | Show to correlation between total jump and time played | Scatter plot | Total Jump | Time played |
 
+![Logo](/screenshots/visualization/table.png)
+
+![Logo](/screenshots/visualization/piechart.png)
+
+![Logo](/screenshots/visualization/boxplot.png)
+
+![Logo](/screenshots/visualization/histogram.png)
+
+![Logo](/screenshots/visualization/scatterplot.png)
+
+
 ## 4. Project Timeline
 
 | Week | Task |
