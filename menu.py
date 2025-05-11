@@ -472,7 +472,7 @@ minimum values (min), quartiles (25%, 50%, 75%), and maximum values (max).
 
         explanation = tk.Label(
             frame,
-            text="This chart shows the distribution of theme selection across all games.",
+            text="This chart shows the proportion of theme selection across all games.",
             font=("Arial", 11),
             bg="white",
             wraplength=500

@@ -39,6 +39,10 @@ Go to Directory
    
    ```python main.py```
 
+### Uml Diagram
+
+![Logo](/screenshots/uml.png)
+
 ### Example UI
 Story telling page
 
@@ -51,5 +55,9 @@ Selecting Theme Menu
 Game Example
 
 ![Logo](/screenshots/gameplay/EscapingF.png)
+
+
+
+
 
 
