@@ -92,7 +92,7 @@ The game records data using a CSV file. This method is used to store gameplay st
 ![Logo](/screenshots/visualization/scatterplot.png)
 
 
-## 4. Project Timeline
+## 5. Project Timeline
 
 | Week | Task |
 |------|------|
@@ -106,4 +106,14 @@ The game records data using a CSV file. This method is used to store gameplay st
 
 ## Youtube Link:
 [Running to Reality link](https://youtu.be/FHP7j9xU2Gc)
+
+
+## 6. Source:
+All photos, I draw by myself.
+
+Code is inspired by a Dinosaur game.
+
+## 7. Update from last version proposal:
+I added the table ,  the graph picture , added more classes , and updated the Uml diagram .
+
 
