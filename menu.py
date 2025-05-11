@@ -464,7 +464,7 @@ minimum values (min), quartiles (25%, 50%, 75%), and maximum values (max).
 
         title = tk.Label(
             frame,
-            text="Theme Distribution",
+            text="Theme Proportion",
             font=("Arial", 14, "bold"),
             bg="white"
         )
