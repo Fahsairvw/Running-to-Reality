@@ -13,31 +13,43 @@ How long can you keep running before reality catches up?
 
 
 ### Installation
-Clone the repository
+Clone the repository:
+```
+git clone https://github.com/Fahsairvw/Running-to-Reality.git
+```
 
-``` git clone https://github.com/Fahsairvw/Running-to-Reality.git ```
-
-Go to Directory
-
-``` cd Running-to-Reality ```
+Go to Directory:
+```
+cd Running-to-Reality
+```
 
 ### Step how to run the code
-1. User starts the virtual in the virtual env. 
+1. Create a virtual environment:
+```
+python -m venv venv
+```
 
-   ``` python -m venv venv ```
-2. Activate the virtual env on Linux and MacOS
+2. Activate the virtual environment:
 
-   ```source venv/bin/activate ```
+   On Linux and MacOS:
+   ```
+   source venv/bin/activate
+   ```
  
-    Or, on MS Windows:
+   On Windows:
+   ```
+   .\venv\Scripts\activate
+   ```
 
-   ```.\venv\Scripts\activate```
-3. Install requirement
- 
-   ```pip install -r requirements.txt```
-4. Run program
-   
-   ```python main.py```
+3. Install requirements:
+```
+pip install -r requirements.txt
+```
+
+4. Run program:
+```
+python main.py
+```
 
 ### Uml Diagram
 
